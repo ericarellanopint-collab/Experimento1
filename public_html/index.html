@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<!-- abre el html y especifica que el idioma de la pagina esta en español -->
+<html lang="es">
+<head>
+    <!-- utf-8 es para que reconozca acentos, eñes y caracteres especiales -->
+    <meta charset="UTF-8">
+    <!-- hace que la pagina se adapte al tamano de pantalla de celulares y computadoras -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- el titulo que sale arriba en la pestaña del navegador -->
+    <title>Sistema de Calificaciones</title>
+
+    <!-- conecta este archivo html con la hoja de estilos css externa para darle diseño aca bonito -->
+    <link rel="stylesheet" href="estilos.css">
+</head>
+
+<body>
+
+    <!-- div principal que envuelve todo el contenido para centrarlo y darle una estructura -->
+    <div class="contenedor">
+
+        <!-- titulo principal -->
+        <h1>Sistema de Calificaciones</h1>
+
+        <!-- subtitulo con instrucciones para el usuario -->
+        <p>Captura las calificaciones del alumno</p>
+        
+        <!-- formulario principal que agrupa todas las cajas de texto y botones -->
+        <form id="formularioCalificaciones">
+        <!-- div interno para organizar los campos de entrada y aplicarles los estilos en css -->
+        <div class="formulario">
+
+            <!-- etiqueta que indica que el campo de abajo es para escribir el nombre -->
+            <label for="nombre">Nombre del alumno:</label>
+            <!-- caja de texto donde el usuario escribe el nombre, el placeholder es el texto gris de fondo -->
+            <input type="text" id="nombre" placeholder="Escribe el nombre">
+            
+            <!-- etiqueta para saber que la caja de abajo es la edad -->
+            <label for="edad">Edad del alumno:</label>
+            <!-- caja de tipo number que solo permite ingresar numeros para la edad -->
+            <input type="number" id="edad" placeholder="Escribe la edad">
+
+            <!-- etiqueta para indicar la primera nota del alumno -->
+            <label for="calificacion1">Calificación 1:</label>
+            <!-- caja numerica con min y max para limitar las notas entre 0 y 10 -->
+            <input type="number" id="calificacion1" min="0" max="10">
+
+            <!-- etiqueta para indicar la segunda nota del alumno -->
+            <label for="calificacion2">Calificación 2:</label>
+            <input type="number" id="calificacion2" min="0" max="10">
+
+            <!-- etiqueta para indicar la tercera nota del alumno -->
+            <label for="calificacion3">Calificación 3:</label>
+            <input type="number" id="calificacion3" min="0" max="10">
+            
+            <!-- etiqueta para indicar la cuarta nota del alumno -->
+            <label for="calificacion4">Calificación 4:</label>
+            <input type="number" id="calificacion4" min="0" max="10">
+
+            <!-- boton para guardar al alumno en la lista, el onclick ejecuta la funcion del js -->
+            <button type="button" onclick="agregarAlumno()">
+                Agregar alumno
+            </button>
+
+            <!-- boton para mostrar los resultados de todos los alumnos guardados -->
+            <button type="button" onclick="calcularPromedio()">
+                Calcular promedio
+            </button>
+            
+            <!-- boton de tipo reset para limpiar todas las cajas del formulario manualmente -->
+            <input type="reset" value="Borrar información">
+
+        </div>
+            
+        <!-- div vacio que sirve como contenedor para imprimir los resultados con javascript -->
+        <div id="resultado" class="resultado">
+
+        </div>
+            </form>
+
+    </div>
+
+    <!-- conecta este archivo html con el archivo script.js para que funcionen los botones y metodos -->
+    <script src="script.js"></script>
+
+</body>
+
+</html>
