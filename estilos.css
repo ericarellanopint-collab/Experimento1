@@ -1,118 +1,26 @@
-/* el asterisco selecciona todos los elementos de la pagina, y el box-sizing hace que 
-el tamano total incluya el relleno y el borde para que nada se descuadre */
-* {
-    box-sizing: border-box;
-}
+# Actions workflow to deploy a static site to Azure Web App
+name: Deploy static site to Azure Web App
 
-/* estilo para todo el cuerpo de la pagina */
-body {
-    /* define la tipografia principal Arial y si no la encuentra usa la de defecto sin serifas */
-    font-family: Arial, sans-serif;
-    /* aplica un color de fondo gris clarito a toda la pantalla */
-    background-color: #f2f2f2;
-    /* quita los margenes y rellenos por defecto que trae el navegador */
-    margin: 0;
-    padding: 0;
-}
+on:
+  push:
+    branches:
+      - master
+  workflow_dispatch:
 
-/* estilo para la tarjeta principal que centra y contiene la interfaz */
-.contenedor {
-    /* le da un ancho fijo de 450 pixeles al cuadro */
-    width: 450px;
-    /* el 50px da espacio arriba/abajo y el auto centra la tarjeta horizontalmente */
-    margin: 50px auto;
-    /* le pone fondo blanco al cuadro para resaltar sobre el fondo gris */
-    background-color: white;
-    /* espacio interno alrededor de los elementos para que no peguen al borde */
-    padding: 30px;
-    /* redondea las cuatro esquinas de la tarjeta con 10 pixeles de curva */
-    border-radius: 10px;
-    /* aplica una sombra negra con transparencia para darle un efecto flotante aca bn chido*/
-    box-shadow: 0px 5px 15px rgba(0,0,0,0.2);
-}
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
 
-/* estilos para el titulo principal */
-h1 {
-    /* centra el texto del titulo en la parte superior */
-    text-align: center;
-    /* le da un margen abajo de 10px para despegarlo del parrafo inferior */
-    margin-bottom: 10px;
-}
+    steps:
+      - uses: actions/checkout@v4
 
-/* estilos para los parrafos normales */
-p {
-    /* centra el texto descriptivo */
-    text-align: center;
-    /* cambia el color del texto a un gris medio para que se vea aca mas suave */
-    color: #666;
-}
-
-/* contenedor para agrupar los inputs y labels */
-.formulario {
-    /* el display flex convierte la caja en un contenedor flexible */
-    display: flex;
-    /* acomoda las cajas de texto y botones de arriba a abajo en una sola columna */
-    flex-direction: column;
-}
-
-/* estilos para los textos encima de las cajas de entrada */
-label {
-    /* le da un espacio arriba para despegarlo de la caja anterior */
-    margin-top: 15px;
-    /* le da un pequeño espacio abajo para no pegarse a su propia caja */
-    margin-bottom: 5px;
-    /* pone el texto en negrita para distinguirlo facilmente */
-    font-weight: bold;
-}
-
-/* estilos para las cajas donde el usuario escribe */
-input {
-    /* le da espacio interno al texto dentro de la caja para que no se vea apretado */
-    padding: 10px;
-    /* dibuja un borde fino de color gris alrededor de la caja */
-    border: 1px solid #ccc;
-    /* redondea ligeramente los bordes de la caja con 5px */
-    border-radius: 5px;
-    /* cambia el tamaño de la letra a 16px */
-    font-size: 16px;
-}
-
-/* estilos para todos los botones */
-button {
-    /* le da un espacio arriba de 25px para separarse del ultimo input */
-    margin-top: 25px;
-    /* espacio interno para hacer el boton mas grueso */
-    padding: 12px;
-    /* le asigna el color azul principal como fondo */
-    background-color: #007bff;
-    /* cambia la letra del boton a color blanco */
-    color: white;
-    /* quita el borde todo feo por defecto que traen los botones */
-    border: none;
-    /* redondea las esquinas del boton */
-    border-radius: 5px;
-    /* define el tamaño de la letra interna */
-    font-size: 16px;
-    /* el cursor pointer cambia la flechita del raton por una manita arriba del boton */
-    cursor: pointer;
-}
-
-/* pseudo-clase hover que se activa al pasar el puntero sobre el boton */
-button:hover {
-    /* oscurece un poco el azul del boton para dar a entender que se está seleccionando */
-    background-color: #0056b3;
-}
-
-/* estilos para la zona inferior donde se imprimen los resultados finales */
-.resultado {
-    /* despega el bloque de resultados hacia abajo */
-    margin-top: 25px;
-    /* espacio interno alrededor del texto de respuesta */
-    padding: 15px;
-    /* centra el mensaje que sale de javascript */
-    text-align: center;
-    /* redondea los bordes de la caja de resultado */
-    border-radius: 5px;
-    /* hace el texto un poco mas grande que el resto para resaltarlo */
-    font-size: 18px;
-}
+      - name: Deploy to Azure Web App
+        id: deploy-to-webapp
+        uses: azure/webapps-deploy@v2
+        with:
+          app-name: 'CaliSistemas'
+          slot-name: 'Production'
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_422079A466A94002B4800A632AF9CA66 }}
+          package: '.'
